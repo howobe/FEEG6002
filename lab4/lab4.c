@@ -24,10 +24,10 @@ void reverse(char source[], char target[])
 		nc++;
 	}
 	nc -= 1;
-	for (i; i<=nc; i++)
+	for (i; i <= nc; i++)
 	{
-		target[nc-i] = source[i];
+		target[nc - i] = source[i];
 	}
-	target[nc+1] = '\0';
+	target[nc + 1] = '\0';
 }
 
