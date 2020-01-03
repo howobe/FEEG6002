@@ -1,0 +1,10 @@
+a) main
+b) header
+c) return
+d) putchar
+e) void
+f) getchar
+g) %d
+h) if
+i) if...else
+j) while

@@ -1,0 +1,22 @@
+a)  A version control system is a system that allows a programmer to track changes to a script or program being written and switch between logged versions of said program, without having to explicitly create new copies using "Save as".
+
+A version control system is software for managing changes to programs and other documents. There a several different vcs systems including git and mercurial.
+
+
+b)  1. It creates a timeline of events and changes that allow incremental improvements and changes to be created often.
+
+    2. It enables programmers to collaborate on a project.
+
+    3. With features like branching, programmers can work on experimental features whilst not putting the public main (master) branch and its users (consumers) at risk.
+
+    1. Clean way to back up your programs (especially if pushing to remote copy of repository): commit changes happen incrementally and you can return to a previous version at anytime.
+
+    2. Allows user to work from multiple different machines.
+
+    3. Allows users to collaborate without overwriting existing changes.
+
+c)  1. git init - create a repositry in the current directory; creates hidden subfolder with config info
+    2. git clone <remote> - create a copy of a remote repository on your local machine
+    3. git diff <branch_a> <branch_b> - display the differences of two branches
+    4. git add <file> - stage a file
+    5. git commit <file> -m <msg> - commit a file, attaching a commit message.

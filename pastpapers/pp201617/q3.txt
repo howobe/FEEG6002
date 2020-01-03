@@ -1,0 +1,5 @@
+a) ; after while condition
+b) No parenthesis around for statement
+c) while condition should be (n <= 10 or n<11)
+d) no closing parenthesis
+e) should be printf and no colon needed after else
