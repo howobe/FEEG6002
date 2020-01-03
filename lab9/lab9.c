@@ -9,6 +9,93 @@
  the number of lines in the file.
 */
 
+int read_number_of_lines(char *s);
+
+int read_data(char *s, double **a, int n);
+
+int write_data(char *s, double **a, int n);
+
+void rotate_vector(double v[], double angle);
+
+
+/******************************************************/
+int main()
+{
+    /*FILE *fr, *fw;*/
+    int i, j, n;
+    double **m;
+    double v[3];
+    double angle = 90.0; /* rotation angle */
+    char s_in[] = "data.in"; /* input data file */
+    char s_out[] = "data.out"; /* output data file */
+
+    /* Find how many lines in the input file */
+    n = read_number_of_lines(s_in);
+    printf("Number of lines read: %d\n", n);
+
+    /* Dynamic memory allocation is necessary because we
+    don't know the size of the matrix apriori, i.e.
+    the input file can have a variable number of lines.
+    First allocate memory for an array of n pointers of
+    type double pointing to individual rows (vectors). */
+
+    m = (double **) malloc(sizeof(double *)*n);
+    if (m == NULL)
+    {
+        printf("Unable to allocate memory.\n");
+        return 1;
+    }
+    printf("Allocated memory.\n");
+    /* Now allocate memory for every row (vector). */
+    for (i = 0; i < 3; i++)
+    {
+        m[i] = (double *) malloc(sizeof(double) * 3);
+        if (m[i] == NULL)
+        {
+            printf("Unable to allocate memory.\n");
+            return 1;
+        }
+    }
+
+    /* read data from file */
+    read_data(s_in, m, n);
+    printf("Read data from '%s'.\n", s_in);
+
+    /* now rotate every vector */
+    for (i = 0; i < n; i++)
+    {
+
+        /* copy i-th row to vector v */
+        for (j = 0; j < 3; j++)
+        {
+            v[j] = m[i][j];
+        }
+        rotate_vector(v, angle);
+        printf("Vector rotated.\n");
+
+        /* copy back */
+        for (j = 0; j < 3; j++)
+        {
+            m[i][j] = v[j];
+        }
+    }
+    
+    printf("Vector copied back.\n");
+    /* write data to file */
+    write_data(s_out, m, n);
+    printf("Data written to '%s'\n", s_out);
+
+    /* Don't forget to free the allocated memory */
+    for (i = 0; i < n; i++)
+    {
+        free(m[i]);
+    }
+    free(m);
+    printf("Memory freed.\n");
+    getchar();
+    return 0;
+}
+
 int read_number_of_lines(char *s)
 /* Function that counts the number of lines. */
 {
@@ -23,12 +110,12 @@ int read_number_of_lines(char *s)
     }
 
     n = 0;
-    while ((fscanf(fr, "%lf %lf %lf\n", &x1, &x2, &x3) == 3))
+    while (fscanf(fr, "%lf %lf %lf\n", &x1, &x2, &x3) == 3)
     {
         n += 1;
     }
 
-    if ((fclose(fr) == EOF))
+    if (fclose(fr) != 0)
     {
         printf("File could not be closed.\n");
         return -1;
@@ -45,7 +132,7 @@ int read_number_of_lines(char *s)
  formatted input to count the number of lines in the file.
 */
 
-int read_data(char *s, double **a, int n)
+int read_data(char s[], double **a, int n)
 {
     FILE *fr;
     int i;
@@ -55,18 +142,18 @@ int read_data(char *s, double **a, int n)
         printf("Unable to open file %s.\n", s);
         return -1;
     }
-
+    printf("Read data from '%s':\n",s);
     for (i = 0; i < n; i++)
     {
         fscanf(fr, "%lf %lf %lf\n", &a[i][0], &a[i][1], &a[i][2]);
+        printf("%f %f %f\n", a[i][0], a[i][1], a[i][2]);
     }
-
     if ((fclose(fr) == EOF))
     {
         printf("Unable to close file.\n");
         return -1;
     }
-
+    printf("File read and closed.\n");
     return 0;
 }
 
@@ -78,7 +165,7 @@ int read_data(char *s, double **a, int n)
  in the n x 3 format.
 */
 
-int write_data(char *s, double **a, int n)
+int write_data(char s[], double **a, int n)
 {
     FILE *fw;
     int i;
@@ -92,6 +179,8 @@ int write_data(char *s, double **a, int n)
     for (i = 0; i < n; i++)
     {
         fprintf(fw, "%lf %lf %lf\n", a[i][0], a[i][1], a[i][2]);
+        printf("Writing data to file '%s':\n", a[i][0], a[i][1], a[i][2]);
+
     }
 
     if ((fclose(fw) == EOF))
@@ -135,81 +224,16 @@ void rotate_vector(double v[], double angle)
     R[2][1] = 0.0;
     R[2][2] = 1.0;
     /* rotate vector v by multiplying it by the rotation matrix */
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
+    for (i = 0; i < 3; i++)
+    {
+        for (j = 0; j < 3; j++)
+        {
             w[i] += R[i][j] * v[j];
         }
     }
     /* copy w to v for return */
-    for (i = 0; i < 3; i++) {
-        v[i] = w[i];
-    }
-}
-/******************************************************/
-int main()
-{
-    /*FILE *fr, *fw;*/
-    int i, j, n;
-    double **m;
-    double v[3];
-    double angle = 90.0; /* rotation angle */
-    char s_in[] = "data.in"; /* input data file */
-    char s_out[] = "data.out"; /* output data file */
-
-    /* Find how many lines in the input file */
-    n = read_number_of_lines(s_in);
-
-    /* Dynamic memory allocation is necessary because we
-    don't know the size of the matrix apriori, i.e.
-    the input file can have a variable number of lines.
-    First allocate memory for an array of n pointers of
-    type double pointing to individual rows (vectors). */
-
-    m = (double **) malloc(sizeof(double *)*n);
-    if (m == NULL)
-    {
-        printf("Unable to allocate memory.\n");
-        return 1;
-    }
-
-    /* Now allocate memory for every row (vector). */
     for (i = 0; i < 3; i++)
     {
-        m[i] = (double *) malloc(sizeof(double) * 3);
-        if (m[i] == NULL)
-        {
-            printf("Unable to allocate memory.\n");
-            return 1;
-        }
+        v[i] = w[i];
     }
-
-    /* read data from file */
-    read_data(s_in, m, n);
-    
-    /* now rotate every vector */
-    for (i = 0; i < n; i++)
-    {
-
-        /* copy i-th row to vector v */
-        for (j = 0; j < 3; j++) {
-            v[j] = m[i][j];
-        }
-        rotate_vector(v, angle);
-
-        /* copy back */
-        for (j = 0; j < 3; j++) {
-            m[i][j] = v[j];
-        }
-    }
-
-    /* write data to file */
-    write_data(s_out, m, n);
-
-    /* Don't forget to free the allocated memory */
-    for (i = 0; i < n; i++)
-    {
-        free((void *) m[i]);
-    }
-    free((void **) m);
-    return 0;
 }

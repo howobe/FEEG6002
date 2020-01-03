@@ -12,7 +12,7 @@ double error_trapez(double (*func)(double), double (*Func)(double, double), doub
 
 double qgaus(double (*func)(double), double a, double b);
 
-double error_qgaus(double (*func)(double), double (*fint_an)(double, double), double a, double b);
+double error_qgaus(double (*func)(double), double (*Func)(double, double), double a, double b);
 /*
 int main(void)
 {
@@ -160,7 +160,7 @@ double qgaus(double (*func)(double), double a, double b)
 
 }
 
-double error_qgaus(double (*func)(double), double (*fint_an)(double, double), double a, double b)
+double error_qgaus(double (*func)(double), double (*Funco)(double, double), double a, double b)
 {
     /*Calculates error between qgaus numerical approximation and exact solution*/
     double approx, exact, error;
