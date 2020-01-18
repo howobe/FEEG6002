@@ -2,26 +2,100 @@
 #include<math.h>
 #include<stdlib.h>
 #include<string.h>
+#define ARGS 6
+#define MLEN 5
 
+/*This script almost incooperates all aspects of FEEG6002 course. Stemming from the lab 3
+excersize, this has been extended to work more dynamically. This script takes a trigonometric
+function (currently limited to sin, cos and tan), (integer) limits for tabulation, number of points
+over which it is calculated, and finally writes the data to a text file.
+
+Usage:
+
+C:\Users\user\documents\homework>lab3extended.exe sin 0 4 1000 sindata.txt
+
+Calculating sin between 0 and 4 over 1000 segments; writing data to sindata.txt
+Calculations completed.
+Opening file 'sindata.txt' to write to.
+Writing to file 'sindata.txt'.
+Writing to file 'sindata.txt' completed.
+File 'sindata.txt' closed.
+
+C:\Users\user\documents\homework>lab3extended.exe cos 0 4 cosdata.txt
+
+Number of segments not defined; default is 1000.
+Calculating sin between 0 and 4 over 0 segments; writing data to cosdata.txt
+Calculations completed.
+Opening file 'cosdata.txt' to write to.
+Writing to file 'cosdata.txt'.
+Writing to file 'cosdata.txt' completed.
+File 'cosdata.txt' closed.
+
+C:\Users\user\documents\homework>lab3extended.exe tan 0 4 10
+
+Output filename not given; data written to data.txt.
+Calculating tan between 0 and 4 over 10 segments; writing data to data.txt
+Calculations completed.
+Opening file 'data.txt' to write to.
+Writing to file 'data.txt'.
+Writing to file 'data.txt' completed.
+File 'data.txt' closed.
+
+*/
+
+
+
+
+/*Function declarations*/
 
 int read_file(char *s, int *m);
 int checknumlines(char *s);
 int tabulatefunc(int *m, double *x, double *y);
 int write_file(char *s, double *x, double *y, int n, char *sep);
+int getfunc(char *arg);
 
-int main(void)
+
+int main(int argc, char *argv[])
 {
 	double *x, *y;
-	char *s_in = "readfrom.txt", *s_out = "writeto.txt", *sep = ",";
-	int *m, n;
+	char *s_out = "data.txt", *sep = ",";
+	int m[MLEN], i;
 	
-	n = checknumlines(s_in);
-	
-	x = (double *) malloc(n*sizeof(double));
-	y = (double *) malloc(n*sizeof(double));
-	m = (int *) malloc(n*sizeof(int));
 
-	read_file(s_in, m);
+	if (argc == ARGS)
+	{
+		s_out = argv[ARGS-1];
+	}
+
+	else if (argc == ARGS - 1 && atoi(argv[argc-1]) == 0)
+	{
+		s_out = argv[argc-1];
+		m[3] = 1000;
+		printf("Number of segments not defined; default is %d.\n", m[3]);
+	}
+
+	else if (argc == ARGS - 1 && atoi(argv[argc-1]) != 0)
+	{
+		printf("Output filename not given; data written to %s.\n", s_out);
+	}
+
+	else
+	{
+		printf("Incorrect number of arguments given. Please try again.\n");
+		return 1;
+	}
+
+	m[0] = getfunc(argv[1]);
+
+	for (i=2; i<MLEN; i++)
+	{
+		m[i-1] = atoi(argv[i]);
+	}
+
+	printf("between %d and %d over %d segments; writing data to %s\n", m[1], m[2], m[3], s_out);
+
+	x = (double *) malloc(m[3]*sizeof(double));
+	y = (double *) malloc(m[3]*sizeof(double));
 
 	tabulatefunc(m, x, y);
 
@@ -30,70 +104,20 @@ int main(void)
 	return 0;
 }
 
-int checknumlines(char *s)
-/*Checks number of lines = 1; returns number of segments defined in input file*/
+int getfunc(char *arg)
 {
-	FILE *fr;
-	int xmin, xmax, num, numlines=0;
-	char *func;
-
-	func = malloc(sizeof(char)*3);
-	
-	if ((fr=fopen(s, "r")) == NULL)
-	{
-		printf("Unable to open file '%s'.\n", s);
-		return -1;
-	}
-	
-	printf("Checking number of lines in file '%s'.\n", s);	
-	while ((fscanf(fr, "%s %d %d %d", func, &xmin, &xmax, &num)) == 4)
-	{
-		numlines++;
-	}
-
-	if (numlines>1)
-	{
-		printf("Too many lines.\n");
-		return 1;
-	}
-	
-	if (fclose(fr) == EOF)
-	{
-		printf("Unable to close file '%s'.\n", s);
-		return -1;
-	}
-	
-	return num;
-}
-
-int read_file(char *s, int *m)
-{
-	/*Reads input file and assigns data to array*/
-	FILE *fr;
-	int f;
-	char *func;
 	char *funcs[] = {"sin", "cos", "tan"};
-	func = malloc(sizeof(char)*3);
+	int f;
 
-	printf("Opening file '%s'.\n", s);
-	if ((fr=fopen(s, "r")) == NULL)
-	{
-		printf("Unable to open file '%s'.\n", s);
-		return -1;
-	}
-	
-	printf("Reading data.\n");	  	  
-	fscanf(fr, "%s %d %d %d", func, &m[1], &m[2], &m[3]);
-
-	if (strcmp(func, funcs[0]) == 0)
+	if (strcmp(arg, funcs[0]) == 0)
 	{
 		f=0;
 	}
-	else if (strcmp(func, funcs[1]) == 0)
+	else if (strcmp(arg, funcs[1]) == 0)
 	{
 		f=1;
 	}
-	else if (strcmp(func, funcs[2]) == 0)
+	else if (strcmp(arg, funcs[2]) == 0)
 	{
 		f=2;
 	}
@@ -102,26 +126,16 @@ int read_file(char *s, int *m)
 		printf("Invalid function given!\n");
 		return 1;
 	}
-	m[0] = f;
-	if (fclose(fr) == EOF)
-	{
-		printf("Unable to close file '%s'.\n", s);
-		return -1;
-	}
-	printf("Closing file '%s'.\n", s);
-	return 0;
+	printf("Calculating %s ", funcs[f]);
+	return f;
 }
-
-
 
 int tabulatefunc(int *m, double *x, double *y)
 {
 	/*Calculates chosen trig function between limits in defined segments*/
 	double (*fpa[])() = {sin, cos, tan};
-	char *funcs[] = {"sin", "cos", "tan"};
 	int i;
 	
-	printf("%s selected.\nCalculating...\n", funcs[m[0]]);
 	for (i=0; i<m[3]; i++)
 	{
 		*(x+i) = m[1] + (m[2]-m[1])*(double)i/(m[3]-1);
