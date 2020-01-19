@@ -11,9 +11,9 @@
 
 int read_number_of_lines(char *s);
 
-int read_data(char *s, double **a, int n);
+int read_data(char *s, double **m, int n);
 
-int write_data(char *s, double **a, int n);
+int write_data(char *s, double **m, int n);
 
 void rotate_vector(double v[], double angle);
 
@@ -21,7 +21,6 @@ void rotate_vector(double v[], double angle);
 /******************************************************/
 int main()
 {
-    /*FILE *fr, *fw;*/
     int i, j, n;
     double **m;
     double v[3];
@@ -47,7 +46,7 @@ int main()
     }
     printf("Allocated memory.\n");
     /* Now allocate memory for every row (vector). */
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < n; i++)
     {
         m[i] = (double *) malloc(sizeof(double) * 3);
         if (m[i] == NULL)
@@ -92,7 +91,6 @@ int main()
     }
     free(m);
     printf("Memory freed.\n");
-    getchar();
     return 0;
 }
 
@@ -110,12 +108,12 @@ int read_number_of_lines(char *s)
     }
 
     n = 0;
-    while (fscanf(fr, "%lf %lf %lf\n", &x1, &x2, &x3) == 3)
+    while ((fscanf(fr, "%lf %lf %lf\n", &x1, &x2, &x3) == 3))
     {
         n += 1;
     }
 
-    if (fclose(fr) != 0)
+    if (fclose(fr) == EOF)
     {
         printf("File could not be closed.\n");
         return -1;
@@ -132,7 +130,7 @@ int read_number_of_lines(char *s)
  formatted input to count the number of lines in the file.
 */
 
-int read_data(char s[], double **a, int n)
+int read_data(char s[], double **m, int n)
 {
     FILE *fr;
     int i;
@@ -145,8 +143,8 @@ int read_data(char s[], double **a, int n)
     printf("Read data from '%s':\n",s);
     for (i = 0; i < n; i++)
     {
-        fscanf(fr, "%lf %lf %lf\n", &a[i][0], &a[i][1], &a[i][2]);
-        printf("%f %f %f\n", a[i][0], a[i][1], a[i][2]);
+        fscanf(fr, "%lf %lf %lf\n", &m[i][0], &m[i][1], &m[i][2]);
+        printf("%f %f %f\n", m[i][0], m[i][1], m[i][2]);
     }
     if ((fclose(fr) == EOF))
     {
@@ -165,7 +163,7 @@ int read_data(char s[], double **a, int n)
  in the n x 3 format.
 */
 
-int write_data(char s[], double **a, int n)
+int write_data(char s[], double **m, int n)
 {
     FILE *fw;
     int i;
@@ -178,8 +176,8 @@ int write_data(char s[], double **a, int n)
 
     for (i = 0; i < n; i++)
     {
-        fprintf(fw, "%lf %lf %lf\n", a[i][0], a[i][1], a[i][2]);
-        printf("Writing data to file '%s':\n", a[i][0], a[i][1], a[i][2]);
+        fprintf(fw, "%lf %lf %lf\n", m[i][0], m[i][1], m[i][2]);
+        printf("Writing data to file '%s':\n", m[i][0], m[i][1], m[i][2]);
 
     }
 

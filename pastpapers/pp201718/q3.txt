@@ -1,0 +1,7 @@
+a)  newline
+b)  destructive
+c)  definite
+d)  type and name
+e)  subscript
+f)  address
+g)  0, NULL and address

@@ -1,0 +1,10 @@
+a)  A function is collection of instructions that can be 'activated' using a single line.
+
+b)  There are user-defined functions and also standard library functions.
+
+c)  #define MAXIMUM 200
+    const int MAXIMUM = 200;
+
+d)  void
+
+e)  n-1

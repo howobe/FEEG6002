@@ -1,0 +1,10 @@
+1.  cat - type
+    ls - dir
+    cd - cd
+    mkdir - mkdir
+
+2.  Shell scripts allow to automate simple tasks, are scalable,
+    make it easy to pass arguments via the command line. Allow you 
+    to create scripts using other scripts in multiple different languages.
+
+3.  Makefiles allow you to compile scripts automatically just using make and the filename, without having to pass flags everytime. It also allows you to compile multiple scripts at once, with dependencies and will recompile when updates have been made. By coding in a clean method, one can also clean up any unwanted 'garbage'.
