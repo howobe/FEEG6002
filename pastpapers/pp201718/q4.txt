@@ -1,0 +1,21 @@
+a)  - colon instead of semicolon
+    - value comparison should be done with == not =
+    - semicolon after if statement is not correct
+    - else not otherwise
+
+b)  - loop limits do not represent the memory allocated at the declaration point; ideally (for optimal readability)
+
+    for (x=0; x<10; x++)
+    {
+        for (y=0; y<3; y++)
+        {
+            array[x][y] = 0;
+        }
+    }
+
+    - whilst indentation is not essential in c, ideally return 0; would be indented
+
+c)  - *string2
+    - memory needs to allocated to string2, equalling the size of string1 
+    string2 = (char *) malloc(sizeof(char)*(strlen(string1)+1));
+    
