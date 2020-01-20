@@ -5,6 +5,7 @@
 #define ARGS 6
 #define MLEN 5
 
+
 /*This script almost incooperates all aspects of FEEG6002 course. Stemming from the lab 3
 excersize, this has been extended to work more dynamically. This script takes a trigonometric
 function (currently limited to sin, cos and tan), (integer) limits for tabulation, number of points
@@ -54,6 +55,7 @@ int tabulatefunc(int *m, double *x, double *y);
 int write_file(char *s, double *x, double *y, int n, char *sep);
 int getfunc(char *arg);
 
+const int defseg = 1000;
 
 int main(int argc, char *argv[])
 {
@@ -70,13 +72,19 @@ int main(int argc, char *argv[])
 	else if (argc == ARGS - 1 && atoi(argv[argc-1]) == 0)
 	{
 		s_out = argv[argc-1];
-		m[3] = 1000;
+		m[3] = defseg;
 		printf("Number of segments not defined; default is %d.\n", m[3]);
 	}
 
 	else if (argc == ARGS - 1 && atoi(argv[argc-1]) != 0)
 	{
 		printf("Output filename not given; data written to %s.\n", s_out);
+	}
+
+	else if (argc == ARGS-2 && atoi(argv[argc-1]) != 0)
+	{
+		m[3] = defseg;
+		printf("Neither output filename nor number of segments given; default number of segments (%d)\nand data writen to data.txt\n", m[3]);
 	}
 
 	else
@@ -103,6 +111,8 @@ int main(int argc, char *argv[])
 	
 	return 0;
 }
+
+
 
 int getfunc(char *arg)
 {

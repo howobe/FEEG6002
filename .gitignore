@@ -1,2 +1,5 @@
 
 *.exe
+revisionNotes.*
+!revisionNotes.pdf
+_minted-revisionNotes

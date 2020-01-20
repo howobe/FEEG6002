@@ -173,11 +173,11 @@ int write_data(char s[], double **m, int n)
         printf("Cannot open the file %s.\n", s);
         return -1;
     }
-
+    printf("Writing data to file '%s':\n",s);
     for (i = 0; i < n; i++)
     {
         fprintf(fw, "%lf %lf %lf\n", m[i][0], m[i][1], m[i][2]);
-        printf("Writing data to file '%s':\n", m[i][0], m[i][1], m[i][2]);
+        printf("%f %f %f\n", m[i][0], m[i][1], m[i][2]);
 
     }
 

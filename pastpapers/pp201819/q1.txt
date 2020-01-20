@@ -1,0 +1,24 @@
+a)	i) C-x C-f
+	ii) C-x C-s
+	iii) M-x compile
+	iv) M-x eshell
+
+b)	condition and statement
+
+c)	intialisation, condition, end code, statement
+
+d)	They are stored as sequential pieces of memory
+with the start of the array as a[0] and a[i] is 
+(a + i) where i is sizeof(array type)
+
+e)	i) &data
+	ii) &data[0]
+
+f)	i) by passing the array length
+	ii) by using sizeof(array)/sizeof(array[0])
+
+g)	The extra element is the nul terminating character,
+	\0.
+	
+h)	struct
+

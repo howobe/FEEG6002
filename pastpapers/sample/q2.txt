@@ -1,0 +1,8 @@
+a) printf should use the format code %c instead as 'c' is a character, not a string.
+b) There should only be one % before the formatting specifier.
+c) To do this the escape character should be invoked
+	i.e. printf("\"hello\n\"");
+d) There are missing quotes around the string.
+e) The character specifier is used, however a string is given.
+	either printf("%c", 'x');
+	or printf("%s", "x");

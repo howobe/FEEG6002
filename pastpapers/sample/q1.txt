@@ -1,0 +1,4 @@
+a) A pointer is a variable that stores the memery address of another variable
+b) The amphersand symbol, when used as a prefix, gives the address of the variable.
+	e.g. printf("val x: %d; address x: %p\n", x, &x);
+c) No. This is because the variable will be stored where there is free memory on the stack.

@@ -1,0 +1,32 @@
+a)	- print_msg should not return 0 since its defined as returning void
+	- No argument should be passed to print_msg as its defined as receiving void.
+	
+b)	- No quotation marks around the printf statement
+	printf("...");
+	- scanf should be passed an address i.e &answer
+	- The format specifier is for a float; it should be %d
+
+c)	- A struct name is not defined
+	i.e. struct info {
+	...};
+	- A struct cannot be intialized in this way
+	should be struct info boy = {"Leo", 8};
+
+d)	
+
+e)	- *p is declared as a pointer to void
+	i.e should be float *p;
+
+f)	- Firstly this a union should not be intialised like this; should be
+	
+	union data{
+		...
+		} generic_variable;
+	
+	generic_variable.a_word = "WOW";
+	generic_variable.a_word = 1000;
+	
+	- However one cannot initialise both at once, the purpose of a union is that it stores
+	as much memory as the largest member, and can only store one at a time. Good for a variable
+	that may change type.
+
