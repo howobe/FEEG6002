@@ -1,5 +1,5 @@
 a) printf should use the format code %c instead as 'c' is a character, not a string.
-b) There should only be one % before the formatting specifier.
+b) To get the percentage symbol, %% should be used.
 c) To do this the escape character should be invoked
 	i.e. printf("\"hello\n\"");
 d) There are missing quotes around the string.
